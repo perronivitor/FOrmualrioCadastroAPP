@@ -2,7 +2,7 @@ package com.example.validacaoformulariosapp.ui.validador
 
 import com.google.android.material.textfield.TextInputLayout
 
-class ValidaEmail(val textInputLayout: TextInputLayout) {
+class ValidaEmail(val textInputLayout: TextInputLayout) : Validador {
 
     private val EMAIL_INVALIDO ="E-mail inválido"
     private val editText get() = textInputLayout.editText
@@ -16,6 +16,7 @@ class ValidaEmail(val textInputLayout: TextInputLayout) {
         return false
     }
 
+    override
     fun isValido(): Boolean{
         if(!validadorPadrao.isValido()) return false
         if(!validaPadrao()) return false

@@ -2,7 +2,7 @@ package com.example.validacaoformulariosapp.ui.validador
 
 import com.google.android.material.textfield.TextInputLayout
 
-class ValidacaoPadrao(val textInputLayout : TextInputLayout) {
+class ValidacaoPadrao(val textInputLayout : TextInputLayout) : Validador{
 
     private val CAMPO_OBRIGATORIO = "Campo Obrigatório"
 
@@ -17,6 +17,7 @@ class ValidacaoPadrao(val textInputLayout : TextInputLayout) {
         return true
     }
 
+    override
     fun isValido():Boolean{
         if (!validaCampoObrigatorio())return false
         limpaErro()
