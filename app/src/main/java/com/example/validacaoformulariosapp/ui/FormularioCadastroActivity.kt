@@ -5,14 +5,13 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
 import br.com.caelum.stella.format.CPFFormatter
-import br.com.caelum.stella.validation.CPFValidator
-import br.com.caelum.stella.validation.InvalidStateException
 import com.example.validacaoformulariosapp.R
+import com.example.validacaoformulariosapp.ui.validador.FormataTelefone
 import com.example.validacaoformulariosapp.ui.validador.ValidaCPF
 import com.example.validacaoformulariosapp.ui.validador.ValidaTelefoneComDdd
 import com.example.validacaoformulariosapp.ui.validador.ValidacaoPadrao
+import com.example.validacaoformulariosapp.ui.validador.ValidaEmail
 import com.google.android.material.textfield.TextInputLayout
-import kotlin.math.log
 
 class FormularioCadastroActivity : AppCompatActivity(R.layout.activity_formulario_cadastro) {
 
@@ -36,36 +35,31 @@ class FormularioCadastroActivity : AppCompatActivity(R.layout.activity_formulari
 
     private fun configuraCampoEmail() {
         val textInputEmail = findViewById<TextInputLayout>(R.id.formulario_cadastro_campo_email)
-        adicionaValidacaoPadrao(textInputEmail)
+        val editTextEmail = textInputEmail?.editText
+        val validador = ValidaEmail(textInputEmail)
+        editTextEmail?.setOnFocusChangeListener { view, hasFocus ->
+            if (!hasFocus) {
+                validador.isValido()
+            }
+        }
     }
 
     private fun configuraCampoTelefone() {
 
         val textInputTelefone =
             findViewById<TextInputLayout>(R.id.formulario_cadastro_campo_telefone)
-
         val editTelefone = textInputTelefone.editText
-
         val validadorTelefone = ValidaTelefoneComDdd(textInputTelefone)
+        val formata = FormataTelefone()
 
         editTelefone?.setOnFocusChangeListener { view, hasFocus ->
             val telefone = editTelefone.text.toString()
             if (hasFocus) {
-                val telefoneSemFormato = telefone
-                    .replace("(", "")
-                    .replace(")", "")
-                    .replace(" ","")
-                    .replace("-", "")
-                editTelefone.setText(telefoneSemFormato)
+                editTelefone.setText(formata.remove(telefone))
             } else {
                 validadorTelefone.isValido()
             }
         }
-
-    }
-
-    private fun removeFormatacaoTelefone() {
-
     }
 
     private fun configuraCampoCPF() {

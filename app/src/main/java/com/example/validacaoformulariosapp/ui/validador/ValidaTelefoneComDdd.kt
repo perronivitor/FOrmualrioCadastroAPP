@@ -23,22 +23,16 @@ class ValidaTelefoneComDdd(val textInputLayout: TextInputLayout) {
 
     fun isValido(): Boolean {
         if (!validacaoPadrao.isValido()) return false
-        if (!validaEntreDezOuOnzeDigitos()) return false;
+        if (!validaEntreDezOuOnzeDigitos()) return false
         adicionaFormatacao()
         return true
     }
 
     private fun adicionaFormatacao() {
-        val sb = StringBuilder()
-        val digitos = telefone.length - 1
-        for (i in 0..digitos) {
-            if(i==0) sb.append("(")
-            val digito = telefone[i]
-            sb.append(digito)
-            if(i == 1) sb.append(") ")
-            if(digitos == 10 && i == 5 || digitos == 11 && i ==6) sb.append("-")
-        }
-        val telefoneFormatado = sb.toString()
+        val telefoneFormatado = FormataTelefone().adiciona(telefone)
         editText?.setText(telefoneFormatado)
     }
+
+
 }
+
